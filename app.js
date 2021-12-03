@@ -6,8 +6,6 @@ function Gallery(gallery) {
   //   console.log(gallery);
   const images = Array.from(gallery.querySelectorAll("img"));
   const modal = document.querySelector(".modal");
-  const prevButton = modal.querySelector(".prev");
-  const nextButton = modal.querySelector(".next");
   function openModal() {
     // First check if the modal is already open
     if (modal.matches(".open")) {
@@ -55,7 +53,6 @@ function Gallery(gallery) {
       if (e.key === "ArrowLeft") {
         showImage(el.previousElementSibling);
       }
-     
     }
     // Handling modal by mouse event (click)
     modal.addEventListener("click", closeModalByMouse);
@@ -63,7 +60,6 @@ function Gallery(gallery) {
     window.addEventListener("keyup", keyUpHandler);
   }
   // --------------------------------
-
   // Handling images by mouse event (click)
   images.forEach((image) => {
     image.addEventListener("click", (e) => showImage(e.currentTarget));
