@@ -9,7 +9,6 @@ function Gallery(gallery) {
   const prevButton = modal.querySelector(".prev");
   const nextButton = modal.querySelector(".next");
   function openModal() {
-    // console.log("Openning modal");
     // First check if the modal is already open
     if (modal.matches(".open")) {
       console.info("Modal already open");
@@ -17,12 +16,15 @@ function Gallery(gallery) {
     }
     modal.classList.add("open");
   }
-  function closeModal(e) {
+  function closeModalByMouse(e) {
     if (e.target === e.currentTarget) {
       modal.classList.remove("open");
     }
-
-    //TODO: add event listeners fro clicks and keyboard
+  }
+  function closeModalByEsc(e) {
+    if (e.key === "Escape") {
+      modal.classList.remove("open");
+    }
   }
   function showImage(el) {
     if (!el) {
@@ -31,11 +33,30 @@ function Gallery(gallery) {
     }
     // console.log(el);
     // update the modal with this info
-    modal.querySelector("img").src = el.src;
+    let currentImage = el.src;
+    modal.querySelector("img").src = currentImage;
     modal.querySelector("h2").textContent = el.title;
     modal.querySelector("figure p").textContent = el.dataset.description;
     openModal();
-    modal.addEventListener("click", closeModal);
+    const modalChevrons = Array.from(modal.querySelectorAll("button"));
+    modalChevrons.forEach((button) => {
+      button.addEventListener("click", () => {
+        if (button.matches(".next")) {
+          showImage(el.nextElementSibling);
+        } else {
+          showImage(el.previousElementSibling);
+        }
+      });
+      button.addEventListener("keyup", (e) => {
+        if (e.key === "ArrowRight") {
+          showImage(el.nextElementSibling);
+        } else if (e.key === "ArrowLeft") {
+          showImage(el.previousElementSibling);
+        }
+      });
+    });
+    modal.addEventListener("click", closeModalByMouse);
+    window.addEventListener("keyup", closeModalByEsc);
   }
   images.forEach((image) => {
     image.addEventListener("click", (e) => showImage(e.currentTarget));
