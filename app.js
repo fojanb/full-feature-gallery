@@ -21,7 +21,7 @@ function Gallery(gallery) {
       modal.classList.remove("open");
     }
   }
-
+// --------------------------------
   function showImage(el) {
     if (!el) {
       console.info("no image to show");
@@ -55,13 +55,32 @@ function Gallery(gallery) {
       if (e.key === "ArrowLeft") {
         showImage(el.previousElementSibling);
       }
+     
     }
+    // Handling modal by mouse event (click)
     modal.addEventListener("click", closeModalByMouse);
+    // Handling modal by keyboard events (Esc, ArrRight and ArrLeft)
     window.addEventListener("keyup", keyUpHandler);
   }
+  // --------------------------------
+
+  // Handling images by mouse event (click)
   images.forEach((image) => {
     image.addEventListener("click", (e) => showImage(e.currentTarget));
+  });
+  // Handling images by keyboard events (Enter)
+  images.forEach((image) => {
+    image.addEventListener("keyup", (e) => {
+      if (e.key === "Enter") {
+        showImage(e.currentTarget)
+      }
+    });
   });
 }
 const gallery1 = Gallery(document.querySelector(".gallery1"));
 const gallery2 = Gallery(document.querySelector(".gallery2"));
+
+/* Images by default are not keyboard focus-able, 
+and in order to make the gallery accessible to keyboard users,
+ we need to ensure that when they tab through it, 
+ they highlight and when you hit enter, it opens it up.*/
