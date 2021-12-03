@@ -21,11 +21,7 @@ function Gallery(gallery) {
       modal.classList.remove("open");
     }
   }
-  function closeModalByEsc(e) {
-    if (e.key === "Escape") {
-      modal.classList.remove("open");
-    }
-  }
+
   function showImage(el) {
     if (!el) {
       console.info("no image to show");
@@ -47,16 +43,21 @@ function Gallery(gallery) {
           showImage(el.previousElementSibling);
         }
       });
-      button.addEventListener("keyup", (e) => {
-        if (e.key === "ArrowRight") {
-          showImage(el.nextElementSibling);
-        } else if (e.key === "ArrowLeft") {
-          showImage(el.previousElementSibling);
-        }
-      });
     });
+    function keyUpHandler(e) {
+      if (e.key === "Escape") {
+        // Close modal by pressing Escape key
+        modal.classList.remove("open");
+      }
+      if (e.key === "ArrowRight") {
+        showImage(el.nextElementSibling);
+      }
+      if (e.key === "ArrowLeft") {
+        showImage(el.previousElementSibling);
+      }
+    }
     modal.addEventListener("click", closeModalByMouse);
-    window.addEventListener("keyup", closeModalByEsc);
+    window.addEventListener("keyup", keyUpHandler);
   }
   images.forEach((image) => {
     image.addEventListener("click", (e) => showImage(e.currentTarget));
